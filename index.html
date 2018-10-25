@@ -1,0 +1,115 @@
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>Dashboard</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="js/angular-datatables.js"></script>
+	<script src="controller/controller.js"></script>
+   
+
+</head>
+<body ng-app="myapp" ng-controller="appcontroller">
+  <header>
+  	 <div class="col-md-4 col-sm-4 col-xs-12 col-lg-4">
+  	 	 <h3>Dashboard</h3>
+  	 </div>
+  </header>
+  <div class="col-md-12 col-sm-12 col-xs-12" id="test-list">
+  	  <ul class="ul_list_fordashboard">
+
+  	  	 <li ng-repeat="details in dashboarddata track by $index">
+  	  	 	<div class="col-md-4 col-sm-4 col-xs-12 col-lg-4">
+  	  	 	  {{details.set_id}}
+  	  	 	</div>
+  	  	 	<div class="col-md-4 col-sm-4 col-xs-12 col-lg-4">
+  	  	 	  {{details.name}}
+  	  	 	</div>
+  	  	 	<div class="col-md-4 col-sm-4 col-xs-12 col-lg-4">
+  	  	 	  {{details.status}}
+  	  	 	</div>
+  	  	 	<div class="col-md-12 col-xs-12 col-lg-12">
+  	  	 		  <h3>Documents</h3>
+  	  	 		  <span class="label">Ordered By: {{orderByField}}, Reverse Sort: {{reverseSort}}</span>
+  	  	 		  <table  class=" dashboard_details_tabl" id="dashboard_details_tabl">
+  	  	 		  	 <thead>
+  	  	 		  	  <th ng-click="orderByField='set_id'; reverseSort = !reverseSort">Set Id <span ng-show="orderByField == 'set_id'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></th>
+
+  	  	 		  	  <th ng-click="orderByField='doc_id'; reverseSort = !reverseSort">Doc Id <span ng-show="orderByField == 'doc_id'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></th>
+
+  	  	 		  	  <th ng-click="orderByField='name'; reverseSort = !reverseSort">Name <span ng-show="orderByField == 'name'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></th>
+
+  	  	 		  	  <th  ng-click="orderByField='status'; reverseSort = !reverseSort">status <span ng-show="orderByField == 'status'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></th>
+
+  	  	 		  	  <th ng-click="orderByField='uploader'; reverseSort = !reverseSort">Uploader <span ng-show="orderByField == 'uploader'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></th>
+
+  	  	 		  	  <th ng-click="orderByField='preview_url'; reverseSort = !reverseSort">Preview_url <span ng-show="orderByField == 'preview_url'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></th>
+  	  	 		  	  <th ng-click="orderByField='date_uploaded'; reverseSort = !reverseSort">Date_uploaded <span ng-show="orderByField == 'date_uploaded'"><span ng-show="!reverseSort">^</span><span ng-show="reverseSort">v</span></span></th>
+  	  	 		  	  <th>Action</th>
+  	  	 		  	 </thead>
+  	  	 		  	 <tbody>
+  	  	 		  	 	<tr>
+  	  	 		  	 		<td><input type="text" class="common_text" placeholder="Serach id" ng-model="setid"></td>
+  	  	 		  	 		<td><input type="text" class="common_text" placeholder="Serach Doc id" ng-model="docid"></td>
+  	  	 		  	 		<td><input type="text" class="common_text" placeholder="Serach Name" ng-model="nameuser"></td>
+  	  	 		  	 		<td><input type="text" class="common_text" placeholder="Serach Status" ng-model="statuscheck"></td>
+  	  	 		  	 		<td><input type="text" class="common_text" placeholder="Serach Uploader" ng-model="uploadername"></td>
+  	  	 		  	 		<td><input type="text" class="common_text" placeholder="Serach Preview Url" ng-model="preview_urlimage"></td>
+  	  	 		  	 		<td><input type="text" class="common_text" placeholder="Serach Uploaded" ng-model="uploaddate"></td>
+  	  	 		  	 		<td></td>
+  	  	 		  	 	</tr>
+  	  	 		  	 	<tr ng-repeat="documentdetails in details.documents | filter : {set_id: setid, doc_id: docid, name: nameuser, status: statuscheck,uploader: uploadername, preview_url: preview_urlimage, date_uploaded: uploaddate,}| orderBy:orderByField:reverseSort track by $index">
+  	  	 		  	 		<td ng-click="editmode(documentdetails)">
+  	  	 		  	 			
+  	  	 		  	 		{{documentdetails.set_id}}
+  	  	 		  	 		<input type="text"  ng-show="documentdetails.editMode" class="form-control" ng-model="documentdetails.set_id" placeholder="Set ID" required="" />
+  	  	 		  	 	</td>
+
+  	  	 		  	 		<td ng-click="editmode(documentdetails)">{{documentdetails.doc_id}}
+  	  	 		  	 			<input type="text"  ng-show="documentdetails.editMode" class="form-control" ng-model="documentdetails.doc_id" placeholder="Doc Id" required="" />
+  	  	 		  	 		</td>
+  	  	 		  	 		<td ng-click="editmode(documentdetails)">{{documentdetails.name}}
+  	  	 		  	 			<input type="text"  ng-show="documentdetails.editMode" class="form-control" ng-model="documentdetails.name" placeholder="Name" required="" />
+  	  	 		  	 		</td>
+  	  	 		  	 		<td ng-click="editmode(documentdetails)">{{documentdetails.status}}
+  	  	 		  	 			<input type="text"  ng-show="documentdetails.editMode" class="form-control" ng-model="documentdetails.status" placeholder="Status" required="" />
+  	  	 		  	 		</td>
+  	  	 		  	 		<td ng-click="editmode(documentdetails)">{{documentdetails.uploader}}
+  	  	 		  	 			<input type="text"  ng-show="documentdetails.editMode" class="form-control" ng-model="documentdetails.uploader" placeholder="Uploader" required="" />
+  	  	 		  	 		</td>
+  	  	 		  	 		<td ng-click="editmode(documentdetails)">{{documentdetails.preview_url}}
+  	  	 		  	 			<input type="text"  ng-show="documentdetails.editMode" class="form-control" ng-model="documentdetails.preview_url" placeholder="Uploader" required="" />
+  	  	 		  	 		</td>
+  	  	 		  	 		<td ng-click="editmode(documentdetails)">{{documentdetails.date_uploaded}}
+  	  	 		  	 			<input type="text"  ng-show="documentdetails.editMode" class="form-control" ng-model="documentdetails.date_uploaded" placeholder="Date_uploaded" required="" />
+  	  	 		  	 		</td>
+  	  	 		  	 		<td><button ng-hide="documentdetails.editmode" ng-click="editdata(documentdetails)">Edit</button>
+                  			<button   id="{{details.set_id}}{{$index}}" onclick="removedata(this.id);">Delete</button>
+                            <button href="" ng-show="documentdetails.editMode" ng-click="savedata(documentdetails,$index)">Update</button>
+                 
+  	  	 		  	 	</tr>
+  	  	 		  	 </tbody>
+  	  	 		  </table>
+  	  	 	</div>
+  	  	 </li>
+  	  </ul>
+  </div>
+	
+</body>
+
+<script type="text/javascript">
+	function removedata(x)
+   {
+     $("#"+x).parent('td').parent('tr').remove();
+   }
+
+</script>
+
+</html>
+
